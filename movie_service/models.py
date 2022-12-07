@@ -13,3 +13,4 @@ class Movie(mongoengine.Document):
     price = mongoengine.IntField(required=True)
     rating = mongoengine.IntField(required=False)
     year = mongoengine.IntField(required=True)
+    actors = mongoengine.ListField(required=True)

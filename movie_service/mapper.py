@@ -10,17 +10,19 @@ def mapping_model_schema(model: models.Movie):
         price=model.price,
         rating=model.rating,
         year=model.year,
+        actors=model.actors
     )
     return schema
 
 
-def mapping_model_schema(schema: schemas.Movie):
-    schema = schemas.Movie(
+def mapping_schema_model(schema: schemas.Movie):
+    model = schemas.Movie(
         movie_uuid=schema.movie_uuid,
         name=schema.name,
         description=schema.description,
         price=schema.price,
         rating=schema.rating,
         year=schema.year,
+        actors=schema.actors
     )
-    return schema
+    return model

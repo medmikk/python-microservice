@@ -1,0 +1,118 @@
+{
+  "$schema": "https://www.krakend.io/schema/v3.json",
+  "version": 3,
+  "output_encoding": "json",
+  "debug_endpoint": true,
+  "endpoints": [
+    {
+      "endpoint": "/default-behavior",
+      "backend": [
+        {
+          "url_pattern": "/__debug/default"
+        }
+      ]
+    },
+    {
+      "endpoint": "/v1/movies/add",
+      "method": "POST",
+      "output_encoding": "json",
+
+      "backend": [
+        {
+          "url_pattern": "/v1/movies/add",
+          "encoding": "safejson",
+          "sd": "static",
+          "method": "POST",
+          "host": [
+            "http://movie_service:8000"
+          ]
+        }
+      ]
+    },
+    {
+      "endpoint": "/v1/movies",
+      "method": "GET",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/v1/movies",
+          "encoding": "json",
+          "is_collection": true,
+          "sd": "static",
+          "method": "GET",
+          "host": [
+            "http://movie_service:8000"
+          ],
+          "mapping": {
+            "collection": "movies"
+          }
+        }
+      ]
+    },
+    {
+      "endpoint": "/v1/actors/add",
+      "method": "POST",
+      "output_encoding": "json",
+
+      "backend": [
+        {
+          "url_pattern": "/v1/actors/add",
+          "encoding": "safejson",
+          "sd": "static",
+          "method": "POST",
+          "host": [
+            "http://actor_service:8000"
+          ]
+        }
+      ]
+    },
+    {
+      "endpoint": "/v1/actors",
+      "method": "GET",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/v1/actors",
+          "encoding": "json",
+          "is_collection": true,
+          "sd": "static",
+          "method": "GET",
+          "host": [
+            "http://actor_service:8000"
+          ],
+          "mapping": {
+            "collection": "actors"
+          }
+        }
+      ]
+    },
+    {
+      "endpoint": "/v1/data",
+      "method": "GET",
+      "backend": [
+        {
+          "url_pattern": "/v1/movies",
+          "encoding": "safejson",
+          "is_collection": true,
+          "host": [
+            "http://movie_service:8000"
+          ],
+          "mapping": {
+            "collection": "movies"
+          }
+        },
+        {
+          "url_pattern": "/v1/actors",
+          "encoding": "safejson",
+          "is_collection": true,
+          "host": [
+            "http://actor_service:8000"
+          ],
+          "mapping": {
+            "collection": "actors"
+          }
+        }
+      ]
+    }
+  ]
+}

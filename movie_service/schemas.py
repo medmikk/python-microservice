@@ -8,7 +8,7 @@ class PostMovie(BaseModel):
     price: int
     rating: int
     year: int
-    # actors: list[str]
+    actors: list[str]
 
 
 class Movie(PostMovie):

@@ -15,5 +15,6 @@ async def create_movie(movie: schemas.PostMovie) -> Movie:
         price=movie.price,
         rating=movie.rating,
         year=movie.year,
+        actors=movie.actors,
     ).save()
     return mov

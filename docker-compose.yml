@@ -1,20 +1,21 @@
-version: '3.9'
+version: '0.2'
 
 services:
   movie_service:
-    container_name: content_service
-    build: ./content_service
+    container_name: movie_service
+    build: movie_service
     volumes:
-      - ./content_service:/code
+      - ./movie_service:/code
     ports:
       - "8001:8000"
 
-
-#  category_service:
-#    container_name: category_service
-#    build: ./category_service
-#    ports:
-#      - "8002:8000"
+  actor_service:
+    container_name: actor_service
+    build: actor_service
+    volumes:
+      - ./actor_service:/code
+    ports:
+      - "8002:8000"
 
 #  auth_service:
 #    container_name: auth_service
@@ -30,22 +31,18 @@ services:
 #    container_name: healthcheck_service
 #    build: ./health_check_service
 
-#  api_gateway:
-#    image: devopsfaith/krakend:watch
-#    container_name: api_gateway
-#    volumes:
-#      - ./krakenD:/etc/krakend
-#    ports:
-#      - "8080:8080"
-#
-#    command: [ "run", "-d", "-c", "/etc/krakend/krakend.json" ]
-#    depends_on:
-#      - product_service
-#      - auth_service
-##      - category_service
-#    environment:
-#      - JWT_SECRETE=jwt_secrete
+  api_gateway:
+    image: devopsfaith/krakend:watch
+    container_name: api_gateway
+    volumes:
+      - ./krakenD:/etc/krakend
+    ports:
+      - "8080:8080"
 
+    command: [ "run", "-d", "-c", "/etc/krakend/krakend.json" ]
+    depends_on:
+      - actor_service
+      - movie_service
 
 #  jaeger-all-in-one:
 #    container_name: jaeger
@@ -92,5 +89,13 @@ services:
     image: bitnami/mongodb
     ports:
       - "27017:27017"
+    volumes:
+      - ~/apps/mongo:/data/db
+
+  mongo_actor:
+    container_name: mongo_actor
+    image: bitnami/mongodb
+    ports:
+      - "27018:27017"
     volumes:
       - ~/apps/mongo:/data/db
