@@ -11,23 +11,15 @@ services:
     environment:
       - JAEGER_AGENT_HOST=jaeger-all-in-one
 
-#  actor_service:
-#    container_name: actor_service
-#    build: actor_service
-#    volumes:
-#      - ./actor_service:/code
-#    ports:
-#      - "8002:8000"
-
-#  auth_service:
-#    container_name: auth_service
-#    build: ./user_service
-#    volumes:
-#      - ./user_service:/code
-#    ports:
-#      - "8002:8000"
-#    environment:
-#      JWT_SECRETE: jwt_secrete
+  auth_service:
+    container_name: auth_service
+    build: ./user_service
+    volumes:
+      - ./user_service:/code
+    ports:
+      - "8002:8000"
+    environment:
+      JWT_SECRETE: jwt_secrete
 #
   healthcheck_service:
     container_name: healthcheck_service
@@ -43,7 +35,7 @@ services:
 
     command: [ "run", "-d", "-c", "/etc/krakend/krakend.json" ]
     depends_on:
-#      - actor_service
+#      - user_service
       - movie_service
 
   jaeger-all-in-one:
@@ -85,8 +77,8 @@ services:
     volumes:
       - ~/apps/mongo:/data/db
 
-  mongo_actor:
-    container_name: mongo_actor
+  mongo_user:
+    container_name: mongo_user
     image: bitnami/mongodb
     ports:
       - "27018:27017"
