@@ -18,6 +18,7 @@ total_requests = Counter('total_requests', 'Total requests counter')
 total_service_requests = Counter('total_service_requests', 'Total service requests counter')
 service_endpoints = ('/metrics', '/_health')
 
+
 @app.on_event("startup")
 async def startup():
     mongoengine.connect(host=f"mongodb://mongo_product:27017/{DB_NAME}", alias=DB_NAME)
@@ -30,6 +31,13 @@ async def startup():
 async def shutdown():
     mongoengine.disconnect(alias=DB_NAME)
     logger.info("Disconnected from base")
+
+
+@app.get('/_health')
+async def health_check():
+    return {
+        'status': 'Ok'
+    }
 
 
 app.include_router(router, prefix='/v1')
