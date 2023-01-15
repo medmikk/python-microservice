@@ -6,6 +6,7 @@ class PostUser(BaseModel):
     name: str
     password: str
     email: str
+    role: str
 
 
 class User(PostUser):

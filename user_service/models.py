@@ -43,3 +43,4 @@ class User(mongoengine.Document):
     name = mongoengine.StringField(max_length=200, required=True)
     email = mongoengine.StringField(max_length=80, required=True)
     password = mongoengine.StringField(max_length=30, required=True)
+    role = mongoengine.StringField(max_length=30, required=False, default='user')

@@ -26,7 +26,9 @@ def trace_it(tag, value):
                 with span_in_context(span):
                     span.set_tag(tag, value)
                     return await function(*args, **kwargs)
+
         return wrapper
+
     return inner
 
 
@@ -39,5 +41,7 @@ def trace_it_sync(tag, value):
                 with span_in_context(span):
                     span.set_tag(tag, value)
                     return function(*args, **kwargs)
+
         return wrapper
+
     return inner

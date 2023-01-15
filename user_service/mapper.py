@@ -1,3 +1,5 @@
+import uuid
+
 import schemas
 import models
 import utils
@@ -10,6 +12,7 @@ def mapping_model_schema(model: models.User):
         name=model.name,
         email=model.email,
         password=model.password,
+        role=model.role
     )
     return schema
 
@@ -21,5 +24,6 @@ def mapping_schema_model(schema: schemas.User):
         name=schema.name,
         password=schema.password,
         email=schema.email,
+        role=schema.role
     )
     return model
