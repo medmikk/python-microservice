@@ -6,21 +6,21 @@ import errors
 from rocketry import Rocketry
 from rocketry.conds import every
 
-
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
 app = Rocketry(config={"task_execution": "async"})
-url = 'http://movie_service:8000'
+urls = ['http://movie_service:8000', 'http://auth_service:8000', 'http://payment_service:8000']
 
 
 @app.task(every("10 seconds"))
 @errors.HTTP_handler(logger)
 async def check_product_service_health():
     async with httpx.AsyncClient() as client:
-        response = await client.get(f"{url}/_health")
-        response.raise_for_status()
-        assert json.loads(response.content.decode()) == {'status': 'Ok'}, errors.HTTPContent(f'Incorrect content')
+        for url in urls:
+            response = await client.get(f"{url}/_health")
+            response.raise_for_status()
+            assert json.loads(response.content.decode()) == {'status': 'Ok'}, errors.HTTPContent(f'Incorrect content')
 
 
 if __name__ == "__main__":
