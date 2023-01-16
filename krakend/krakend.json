@@ -44,6 +44,7 @@
       "endpoint": "/v1/users/add",
       "method": "POST",
       "output_encoding": "json",
+
       "backend": [
         {
           "url_pattern": "/v1/users/add",
@@ -106,6 +107,22 @@
           "kid": "sim2"
         }
       }
+    },
+    {
+      "endpoint": "/v1/payment/buy",
+      "method": "POST",
+      "input_headers": ["*"],
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/v1/payment/buy",
+          "sd": "static",
+          "method": "POST",
+          "host": [
+            "http://payment_service:8000"
+          ]
+        }
+      ]
     },
     {
       "endpoint": "/v1/users/delete/{user_uuid}",
