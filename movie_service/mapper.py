@@ -17,7 +17,8 @@ def mapping_model_schema(model: models.Movie):
                     price=model.price,
                     rating=model.rating,
                     year=model.year,
-                    actors=model.actors
+                    actors=model.actors,
+                    sub_type=model.sub_type
                 )
                 return schema
             except Exception as e:
@@ -37,7 +38,8 @@ def mapping_schema_model(schema: schemas.Movie):
                     price=schema.price,
                     rating=schema.rating,
                     year=schema.year,
-                    actors=schema.actors
+                    actors=schema.actors,
+                    sub_type=schema.sub_type
                 )
                 return model
             except Exception as e:

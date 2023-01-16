@@ -43,5 +43,26 @@ async def add_new_movie(movie: PostMovie):
             return mov
 
 
+@router.get(
+    '/movie',
+    status_code=200,
+    response_model=Movie,
+)
+async def get_movie_by_id(movie_id, user_sub: str):
+    tracer = opentracing.global_tracer()
+    with tracer.start_span(get_all_movies.__name__, child_of=get_current_span()) as span:
+        with span_in_context(span):
+            movie = await services.get_movie(movie_id, user_sub)
+            output = mapper.mapping_model_schema(movie)
+            return output
 
 
+@router.delete(
+    '/delete',
+    status_code=200
+)
+async def delete_movie(movie_id):
+    tracer = opentracing.global_tracer()
+    with tracer.start_span(get_all_movies.__name__, child_of=get_current_span()) as span:
+        with span_in_context(span):
+            await services.delete_movie(movie_id)

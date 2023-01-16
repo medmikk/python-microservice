@@ -45,3 +45,5 @@ class Movie(mongoengine.Document):
     rating = mongoengine.IntField(required=False)
     year = mongoengine.IntField(required=True)
     actors = mongoengine.ListField(required=True)
+    sub_type = mongoengine.StringField(max_length=10, required=True, default='user')
+

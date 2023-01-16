@@ -86,6 +86,26 @@
       }
     },
     {
+      "endpoint": "/v1/movies/movie",
+      "method": "GET",
+      "input_headers": ["*"],
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/v1/movies/movie",
+          "sd": "static",
+          "method": "GET",
+          "is_collection": true,
+          "host": [
+            "http://movie_service:8000"
+          ],
+          "mapping": {
+            "collection": "movies"
+          }
+        }
+      ]
+    },
+    {
       "endpoint": "/v1/login",
       "method":  "POST",
       "backend": [

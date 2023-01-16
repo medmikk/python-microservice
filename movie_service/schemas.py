@@ -9,6 +9,7 @@ class PostMovie(BaseModel):
     rating: int
     year: int
     actors: list[str]
+    sub_type: str
 
 
 class Movie(PostMovie):
