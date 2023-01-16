@@ -4,6 +4,7 @@ import pprint
 import pydantic
 import json
 from movie_service.schemas import Movie, PostMovie
+from user_service.schemas import User
 
 
 # if __name__ == '__main__':
@@ -20,7 +21,6 @@ from movie_service.schemas import Movie, PostMovie
 #
 #     response = requests.post('http://localhost:8080/v1/payment/buy', headers=headers, json=json_data)
 #     print(response.content)
-
 
 
 @pytest.fixture
@@ -81,6 +81,34 @@ def test_protected_get_movie(endpoint, schemas, api_gateway_url):
 
 
 @pytest.mark.parametrize('endpoint, schemas', [
+    ('users', User),
+])
+def test_protected_get_users(endpoint, schemas, api_gateway_url):
+    head = {'accept': 'application/json'}
+
+    data_unsub = {
+        'movie_id': '27000f7e-68c4-45d8-9201-53d60d773ee0',
+        'user_sub': 'user'
+    }
+    data_sub1 = {
+        'movie_id': '27000f7e-68c4-45d8-9201-53d60d773ee0',
+        'user_sub': 'sub1'
+    }
+    data_sub2 = {
+        'movie_id': '27000f7e-68c4-45d8-9201-53d60d773ee0',
+        'user_sub': 'sub2'
+    }
+
+    url = f'{api_gateway_url}/movies/movie'
+    response = requests.get(url=url, params=data_unsub, headers=head)
+    assert response.status_code == 402
+    response = requests.get(url=url, params=data_sub1, headers=head)
+    assert response.status_code == 402
+    response = requests.get(url=url, params=data_sub2, headers=head)
+    assert response.status_code == 200
+
+
+@pytest.mark.parametrize('endpoint, schemas', [
     ('movies', Movie),
 ])
 def test_protected_login(endpoint, schemas, api_gateway_url):
@@ -88,7 +116,7 @@ def test_protected_login(endpoint, schemas, api_gateway_url):
 
     data = {
         'grant_type': '',
-        'username': 'admin@', #TODO rename to email
+        'username': 'admin@', 
         'password': 'admin',
         'scope': '',
         'client_id': '',

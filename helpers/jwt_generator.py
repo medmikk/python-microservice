@@ -12,7 +12,7 @@ if __name__ == '__main__':
         "role": "Obema"
     }
 
-    response = requests.put('http://localhost:8080/v1/users/update_role/3d444a85-2372-405d-b3d9-76536cda93f5', headers=headers, data=data)
+    response = requests.post('http://localhost:8080/v1/login', headers=headers, data=data)
 
     assert response.status_code == 200
     pprint.pprint(
