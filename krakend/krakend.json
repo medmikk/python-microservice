@@ -89,7 +89,11 @@
       "endpoint": "/v1/movies/movie",
       "method": "GET",
       "input_headers": ["*"],
-      "output_encoding": "json",
+      "output_encoding": "no-op",
+      "input_query_strings": [
+        "movie_id",
+        "user_sub"
+      ],
       "backend": [
         {
           "url_pattern": "/v1/movies/movie",
