@@ -1,9 +1,12 @@
-import time
 import logging
 
 from fastapi import FastAPI
 import mongoengine
 from prometheus_client import Summary, Counter
+
+import aio_pika
+
+from broker.consumer import on_message
 
 from prometheus_fastapi_instrumentator import Instrumentator
 
@@ -31,6 +34,13 @@ async def startup():
     mongoengine.connect(host=f"mongodb://mongo_product:27017/{DB_NAME}", alias=DB_NAME)
     init_tracer()
     Instrumentator().instrument(app).expose(app)
+
+    connection = await aio_pika.connect("amqp://guest:guest@rabbitmq:5672/")
+    channel = await connection.channel()
+
+    queue = await channel.declare_queue("fastapi_task")
+
+    await queue.consume(on_message, no_ack=True)
 
 
 @app.on_event("shutdown")

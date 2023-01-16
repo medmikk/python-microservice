@@ -5,3 +5,7 @@ opentracing-instrumentation==3.3.1
 mongoengine==0.24.2
 prometheus-fastapi-instrumentator
 prometheus_client
+pydantic~=1.10.4
+python-dotenv~=0.21.0
+opentracing~=2.4.0
+aio_pika

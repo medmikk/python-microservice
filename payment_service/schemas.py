@@ -5,7 +5,7 @@ import uuid
 class BuySub(BaseModel):
     qiwi: str
     sub_type: str
-    uuid: uuid.UUID
+    uuid: str
 
 
 class Sub(BuySub):
