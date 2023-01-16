@@ -44,7 +44,6 @@
       "endpoint": "/v1/users/add",
       "method": "POST",
       "output_encoding": "json",
-
       "backend": [
         {
           "url_pattern": "/v1/users/add",
@@ -107,6 +106,57 @@
           "kid": "sim2"
         }
       }
+    },
+    {
+      "endpoint": "/v1/users/delete/{user_uuid}",
+      "method": "DELETE",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/v1/users/delete/{user_uuid}",
+          "encoding": "safejson",
+          "sd": "static",
+          "method": "DELETE",
+          "host": [
+            "http://auth_service:8000"
+          ]
+        }
+      ]
+    },
+    {
+      "endpoint": "/v1/users/put/{user_uuid}",
+      "method": "PUT",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/v1/users/put/{user_uuid}",
+          "encoding": "safejson",
+          "sd": "static",
+          "method": "PUT",
+          "host": [
+            "http://auth_service:8000"
+          ]
+        }
+      ]
+    },
+    {
+      "endpoint": "/v1/users/update_role/{user_uuid}",
+      "method": "PUT",
+      "output_encoding": "json",
+      "input_query_strings": [
+        "role"
+      ],
+      "backend": [
+        {
+          "url_pattern": "/v1/users/update_role/{user_uuid}",
+          "encoding": "safejson",
+          "sd": "static",
+          "method": "PUT",
+          "host": [
+            "http://auth_service:8000"
+          ]
+        }
+      ]
     }
   ]
 }

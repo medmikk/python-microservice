@@ -39,18 +39,17 @@ async def add_new_user(user: PostUser):
 
 
 @router.delete(
-    '/{user_uuid}',
-    status_code=status.HTTP_204_NO_CONTENT
+    '/delete/{user_uuid}',
+    status_code=status.HTTP_200_OK
 )
 @utils.trace_it(tag='router', value='Delete user')
 async def delete_user(user_uuid: uuid.UUID):
     await services.delete_user(user_uuid)
-    return
 
 
 @router.put(
-    '/user/{user_uuid}',
-    status_code=status.HTTP_202_ACCEPTED
+    '/put/{user_uuid}',
+    status_code=status.HTTP_200_OK
 )
 @utils.trace_it(tag='router', value='Update user')
 async def update_user(user_uuid: uuid.UUID, user: PostUser):
@@ -60,10 +59,9 @@ async def update_user(user_uuid: uuid.UUID, user: PostUser):
 
 
 @router.put(
-    '/role/{user_uuid}',
-    status_code=status.HTTP_202_ACCEPTED
+    '/update_role/{user_uuid}',
+    status_code=status.HTTP_200_OK
 )
 @utils.trace_it(tag='router', value='Update role')
 async def update_role(user_uuid: uuid.UUID, role):
-    await services.update_role(user_uuid, role)
-    return
+    return await services.update_role(user_uuid, role)

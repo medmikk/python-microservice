@@ -11,13 +11,17 @@ async def get_all_users() -> list[User]:
 
 @utils.trace_it(tag='service', value='Create user')
 async def create_user(user: schemas.PostUser) -> User:
-    user = User(
-        user_uuid=uuid.uuid4(),
-        name=user.name,
-        password=user.password,
-        email=user.email,
-    ).save()
-    return user
+    if await get_user_by_username(user.email) is None:
+        user = User(
+            user_uuid=uuid.uuid4(),
+            name=user.name,
+            password=user.password,
+            email=user.email,
+            role=user.role
+        ).save()
+        return user
+    else:
+        return await get_user_by_username(user.email)
 
 
 @utils.trace_it(tag='service', value='Delete user')
@@ -29,7 +33,8 @@ async def delete_user(user_uuid):
 async def update_user(user_uuid, user_update: schemas.PostUser):
     return User.objects(user_uuid=user_uuid).first().update(name=user_update.name,
                                                             password=user_update.password,
-                                                            email=user_update.email)
+                                                            email=user_update.email,
+                                                            role=user_update.role)
 
 
 @utils.trace_it(tag='service', value='Get user by username')
