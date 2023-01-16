@@ -19,7 +19,9 @@ services:
     ports:
       - "8002:8000"
     environment:
-      JWT_SECRETE: jwt_secrete
+      - JWT_SECRETE=jwt_secrete
+      - JAEGER_AGENT_HOST=jaeger-all-in-one
+
 #
   healthcheck_service:
     container_name: healthcheck_service
@@ -33,7 +35,8 @@ services:
     ports:
       - "8003:8000"
     environment:
-      JWT_SECRETE: jwt_secrete
+      - JWT_SECRETE=jwt_secrete
+      - JAEGER_AGENT_HOST=jaeger-all-in-one
 
   api_gateway:
     image: devopsfaith/krakend:watch
@@ -45,7 +48,7 @@ services:
 
     command: [ "run", "-d", "-c", "/etc/krakend/krakend.json" ]
     depends_on:
-#      - user_service
+      - auth_service
       - movie_service
 
   jaeger-all-in-one:

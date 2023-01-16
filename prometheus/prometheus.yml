@@ -3,11 +3,11 @@ scrape_configs:
     scrape_interval: 10s
     static_configs:
       - targets: ['movie_service:8000']
-  - job_name: 'user_service'
+  - job_name: 'auth_service'
     scrape_interval: 10s
     static_configs:
-      - targets: [ 'movie_service:8000' ]
+      - targets: [ 'auth_service:8000' ]
   - job_name: 'payment_service'
     scrape_interval: 10s
     static_configs:
-      - targets: [ 'movie_service:8000' ]
+      - targets: [ 'payment_service:8000' ]

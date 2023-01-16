@@ -3,6 +3,7 @@ import logging
 
 from fastapi import FastAPI
 import mongoengine
+from prometheus_client import Summary, Counter
 
 from prometheus_fastapi_instrumentator import Instrumentator
 
@@ -16,6 +17,12 @@ DB_NAME = 'mydb'
 
 logger = logging.getLogger(__name__)
 app = FastAPI()
+
+logger = logging.getLogger(__name__)
+REQUEST_TIME = Summary('request_processing_seconds', 'Time spent processing request')
+total_requests = Counter('total_requests', 'Total requests counter')
+total_service_requests = Counter('total_service_requests', 'Total service requests counter')
+service_endpoints = ('/metrics', '/_health')
 
 
 @app.on_event("startup")

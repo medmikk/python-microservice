@@ -12,7 +12,6 @@ DB_NAME = 'mydb'
 app = FastAPI()
 
 logger = logging.getLogger(__name__)
-DB_NAME = 'mydb'
 REQUEST_TIME = Summary('request_processing_seconds', 'Time spent processing request')
 total_requests = Counter('total_requests', 'Total requests counter')
 total_service_requests = Counter('total_service_requests', 'Total service requests counter')
