@@ -25,6 +25,16 @@ services:
     container_name: healthcheck_service
     build: ./health_check_service
 
+  payment_service:
+    container_name: payment_service
+    build: ./payment_service
+    volumes:
+      - ./payment_service:/code
+    ports:
+      - "8003:8000"
+    environment:
+      JWT_SECRETE: jwt_secrete
+
   api_gateway:
     image: devopsfaith/krakend:watch
     container_name: api_gateway

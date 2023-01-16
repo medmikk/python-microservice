@@ -16,6 +16,7 @@ async def create_user(user: schemas.PostUser) -> User:
         name=user.name,
         password=user.password,
         email=user.email,
+        role=user.role
     ).save()
     return user
 
