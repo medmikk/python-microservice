@@ -62,6 +62,46 @@ def test_get_endpoints(endpoint, schemas, service_url):
 #     assert response.status_code == 200
 
 
+def test_post_user():
+    headers = {
+        'accept': 'application/json',
+        'Content-Type': 'application/json',
+    }
+
+    json_data = {
+        'name': 'admin',
+        'password': 'admin',
+        'email': 'admin@',
+        'role': 'user',
+    }
+    response = requests.post('http://localhost:8002/v1/users/add', headers=headers, json=json_data)
+    assert response.status_code == 201
+
+
+@pytest.mark.parametrize('endpoint, schemas', [
+    ('movies', Movie),
+])
+def test_login(endpoint, schemas, api_gateway_url):
+    headers = {'accept': 'application/json'}
+    test_post_user()
+    data = {
+        'grant_type': '',
+        'username': 'admin@',  # TODO rename to email
+        'password': 'admin',
+        'scope': '',
+        'client_id': '',
+        'client_secret': '',
+    }
+
+    url = f'{api_gateway_url}/login'
+
+    response = requests.post(url, headers=headers, data=data)
+    assert response.status_code == 200
+    user_access_token = json.loads(response.content.decode())['access_token']
+    assert user_access_token != ''
+    headers['Authorization'] = f'Bearer {user_access_token}'
+
+
 @pytest.mark.parametrize('endpoint, schemas, body', [
     ('movies/add', PostMovie, PostMovie(
         name='Mega name for film',
