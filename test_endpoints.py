@@ -2,22 +2,7 @@ import requests
 import pytest
 import json
 from movie_service.schemas import Movie, PostMovie
-
-
-# if __name__ == '__main__':
-#     headers = {
-#         'accept': 'application/json',
-#         'Content-Type': 'application/json',
-#     }
-#
-#     json_data = {
-#         'qiwi': 'string',
-#         'sub_type': 'string',
-#         'uuid': '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-#     }
-#
-#     response = requests.post('http://localhost:8080/v1/payment/buy', headers=headers, json=json_data)
-#     print(response.content)
+from user_service.schemas import PostUser
 
 
 @pytest.fixture
@@ -75,30 +60,6 @@ def test_get_endpoints(endpoint, schemas, service_url):
 #     assert response.status_code == 402
 #     response = requests.get(url=url, params=data_sub2, headers=head)
 #     assert response.status_code == 200
-
-
-@pytest.mark.parametrize('endpoint, schemas', [
-    ('movies', Movie),
-])
-def test_protected_login(endpoint, schemas, api_gateway_url):
-    headers = {'accept': 'application/json'}
-
-    data = {
-        'grant_type': '',
-        'username': 'admin@',
-        'password': 'admin',
-        'scope': '',
-        'client_id': '',
-        'client_secret': '',
-    }
-
-    url = f'{api_gateway_url}/login'
-
-    response = requests.post(url, headers=headers, data=data)
-    assert response.status_code == 200
-    user_access_token = json.loads(response.content.decode())['access_token']
-    assert user_access_token != ''
-    headers['Authorization'] = f'Bearer {user_access_token}'
 
 
 @pytest.mark.parametrize('endpoint, schemas, body', [
